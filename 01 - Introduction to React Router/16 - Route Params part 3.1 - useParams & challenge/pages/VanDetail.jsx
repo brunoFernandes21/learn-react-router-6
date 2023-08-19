@@ -1,5 +1,6 @@
 import React from "react"
-
+import { useParams } from "react-router-dom"
 export default function VanDetail() {
-    return <h1>Van detail page goes here</h1>
+    const { id } = useParams()
+    return <h1>Van id is: {id}</h1>
 }

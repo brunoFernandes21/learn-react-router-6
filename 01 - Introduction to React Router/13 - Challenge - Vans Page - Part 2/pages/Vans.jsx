@@ -1,4 +1,4 @@
-import React from "react"
+import React, { useEffect, useState } from "react"
 
 /**
  * Challenge: Fetch and map over the data to display it on
@@ -16,7 +16,33 @@ import React from "react"
 
 
 export default function Vans() {
+    const [vans, setVans] = useState([])
+    useEffect(() => {
+        const getVans = async () => {
+            const response = await fetch("/api/vans")
+            const data = await response.json()
+            setVans(data.vans)
+        }
+        getVans()
+    }, [])
+
+    const vanItems = vans.map((van) => (
+        <div key={van.id} className="van-tile">
+            <img src={van.imageUrl}/>
+            <div className="van-info">
+                <h3>{van.name}</h3>
+                <p>£{van.price}<span>/day</span></p>
+            </div>
+            <i className={`van-type ${van.type} selected`}>{van.type}</i>
+        </div>
+    ))
     return (
-        <h1>Vans page goes here 🚐</h1>
+        <div className="van-list-container">
+            <h1>Explore our van options</h1>
+            <div className="van-list">
+            {vanItems}
+            </div>
+
+        </div>
     )
 }
